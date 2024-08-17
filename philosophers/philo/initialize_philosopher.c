@@ -51,6 +51,7 @@ void	init_mutex(t_data *data, pthread_mutex_t forks[200], char **av)
 	pthread_mutex_init(&data->write_lock, NULL);
 	pthread_mutex_init(&data->dead_lock, NULL);
 	pthread_mutex_init(&data->meal_lock, NULL);
+	pthread_mutex_init(&data->start_lock, NULL);
 }
 
 void	add_informations(t_philosopher *philo, char **av, int ac)
@@ -75,6 +76,7 @@ void	initialize_philosophers(t_data *data, pthread_mutex_t forks[200],
 	i = 0;
 	data->philosophers = malloc(sizeof(t_philosopher) * ft_atoi(av[1]));
 	data->dead_signal = 0;
+	data->start_signal = 0;
 	if (!data->philosophers)
 	{
 		printf("Error: malloc failed\n");
@@ -86,11 +88,13 @@ void	initialize_philosophers(t_data *data, pthread_mutex_t forks[200],
 		data->philosophers[i].start_time = get_time();
 		data->philosophers[i].last_meal = get_time();
 		data->philosophers[i].dead = &(data->dead_signal);
+		data->philosophers[i].start = &(data->start_signal);
 		data->philosophers[i].r_fork = &forks[i];
 		data->philosophers[i].l_fork = &forks[(i + 1) % ft_atoi(av[1])];
 		data->philosophers[i].write_lock = &data->write_lock;
 		data->philosophers[i].dead_lock = &data->dead_lock;
 		data->philosophers[i].meal_lock = &data->meal_lock;
+		data->philosophers[i].start_lock = &data->start_lock;
 		add_informations(&data->philosophers[i], av, ac);
 		i++;
 	}

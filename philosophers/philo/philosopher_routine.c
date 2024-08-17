@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher_routine.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: udumas <udumas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bainur <bainur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:42:58 by udumas            #+#    #+#             */
-/*   Updated: 2024/05/11 17:01:59 by udumas           ###   ########.fr       */
+/*   Updated: 2024/08/16 19:26:05 by bainur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	make_philo_sleep_o_think(t_philosopher *philo, int status)
 {
 	if (status == 0)
 	{
-		print_right_time("is sleeping", philo);
 		ft_usleep(philo->ttsleep);
+		print_right_time("is sleeping", philo);
 	}
 	else
 		print_right_time("is thinking", philo);
@@ -84,8 +84,21 @@ void	*philosopher_routine(void *philo_void)
 	t_philosopher	*philo;
 
 	philo = (t_philosopher *)philo_void;
+	while (1)
+	{
+		pthread_mutex_lock(philo->start_lock);	
+		if (*(philo->start) == 1)
+		{
+			pthread_mutex_unlock(philo->start_lock);
+			break;
+		}	
+		pthread_mutex_unlock(philo->start_lock);
+	}
+	pthread_mutex_lock(philo->start_lock);
+	philo->start_time = get_time();
+	pthread_mutex_unlock(philo->start_lock);
 	if (philo->id % 2 == 0)
-		ft_usleep(1);
+		usleep(10);
 	while (dead_o_not_dead(philo) == 0)
 	{
 		make_philo_eat(philo);

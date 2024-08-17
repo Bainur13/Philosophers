@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: udumas <udumas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bainur <bainur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:03:47 by udumas            #+#    #+#             */
-/*   Updated: 2024/05/11 16:57:44 by udumas           ###   ########.fr       */
+/*   Updated: 2024/08/16 19:04:54 by bainur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ void	print_right_time(char *msg, t_philosopher *philo)
 {
 	long	time;
 
+	pthread_mutex_lock(philo->start_lock);
 	time = get_time() - philo->start_time;
+	pthread_mutex_unlock(philo->start_lock);
 	if (!dead_o_not_dead(philo))
 	{
 		pthread_mutex_lock(philo->write_lock);
@@ -54,16 +56,15 @@ void	print_right_time(char *msg, t_philosopher *philo)
 	}
 }
 
-int	ft_usleep(size_t milliseconds)
+int	ft_usleep(long long time)
 {
-	size_t	start;
+	long long	start;
 
 	start = get_time();
-	while ((get_time() - start) < milliseconds)
-		usleep(500);
+	while ((get_time() - start) < time)
+		usleep(time / 10);
 	return (0);
 }
-
 int	ft_atoi(const char *str)
 {
 	int		i;

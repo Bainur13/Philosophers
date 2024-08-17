@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arbitrator_routine.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: udumas <udumas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bainur <bainur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:29:36 by udumas            #+#    #+#             */
-/*   Updated: 2024/05/11 17:01:09 by udumas           ###   ########.fr       */
+/*   Updated: 2024/08/16 19:21:56 by bainur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void	*arbitrator_routine(void *arg)
 	data = (t_data *)arg;
 	while (1)
 	{
+
+		usleep(100);
 		if (check_ttdie(data->philosophers) == 1
 			|| check_every1_eaten(data->philosophers) == 1)
 			break ;

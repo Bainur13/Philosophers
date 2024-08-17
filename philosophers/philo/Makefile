@@ -10,7 +10,7 @@ SRCS =			philosopher_main.c 	\
 
 # LDFLAGS = -L./libft -lft -pthread
 
-NAME = philosophers_mandatory
+NAME = philo
 
 OBJS = $(SRCS:.c=.o)
 

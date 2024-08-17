@@ -29,6 +29,9 @@ void	start_threads(t_data *data)
 			return ;
 		i++;
 	}
+	pthread_mutex_lock(&(data->start_lock));
+	data->start_signal = 1;
+	pthread_mutex_unlock(&(data->start_lock));
 	i = 0;
 	if (pthread_join(arbitrator, NULL) != 0)
 		return ;

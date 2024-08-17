@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: udumas <udumas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bainur <bainur@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:25:51 by udumas            #+#    #+#             */
-/*   Updated: 2024/05/11 18:16:23 by udumas           ###   ########.fr       */
+/*   Updated: 2024/08/16 17:37:55 by bainur           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,14 @@ typedef struct s_philosopher
 	int				eaten;
 	int				eating;
 	int				*dead;
+	int				*start;
 
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*write_lock;
 	pthread_mutex_t	*dead_lock;
 	pthread_mutex_t	*meal_lock;
+	pthread_mutex_t *start_lock;
 
 	int				nphilo;
 	long			ttdie;
@@ -49,10 +51,12 @@ typedef struct s_philosopher
 typedef struct s_data
 {
 	int				dead_signal;
-
+	int				start_signal;
+	
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	meal_lock;
+	pthread_mutex_t start_lock;
 
 	t_philosopher	*philosophers;
 }					t_data;
@@ -62,7 +66,7 @@ typedef struct s_data
 int					setup_information(int ac, char **av);
 void				initialize_philosophers(t_data *data,
 						pthread_mutex_t forks[200], char **av, int ac);
-void				init_mutex(t_data *data, pthread_mutex_t *forks, char **av);
+void				init_mutex(t_data *data, pthread_mutex_t forks[200], char **av);
 
 //### START_THREAD ###//
 
@@ -83,7 +87,7 @@ int					check_every1_eaten(t_philosopher *philo);
 void				print_right_time(char *msg, t_philosopher *philo);
 int					only_digit(char **av);
 long long			get_time(void);
-int					ft_usleep(size_t milliseconds);
+int					ft_usleep(long long milliseconds);
 int					ft_atoi(const char *str);
 //### END OF HEADER ###//
 
